@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stake Youth Ordinance Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page" aria-live="polite">
+      <header class="header">
+        <h1>Stake Youth Ordinance Tracker</h1>
+        <p class="subtitle">Working together toward our shared goal.</p>
+      </header>
+
+      <section class="stats" aria-label="Progress totals">
+        <div class="stat-card">
+          <h2>Current Total</h2>
+          <p id="current-total">0</p>
+        </div>
+        <div class="stat-card">
+          <h2>Goal</h2>
+          <p id="goal-total">2,500</p>
+        </div>
+        <div class="stat-card">
+          <h2>Percent Complete</h2>
+          <p id="percent-complete">0%</p>
+        </div>
+        <div class="stat-card">
+          <h2>Remaining</h2>
+          <p id="remaining-total">2,500</p>
+        </div>
+      </section>
+
+      <section class="progress-section" aria-label="Progress bar">
+        <div
+          id="progress-bar"
+          class="progress-bar"
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          aria-label="Progress toward ordinance goal"
+        >
+          <span id="progress-fill" class="progress-fill"></span>
+        </div>
+      </section>
+
+      <section class="temple-section" aria-label="Temple building progress">
+        <h2>Temple Build Progress</h2>
+        <div class="temple-stack">
+          <img id="layer-0" src="assets/temple/layer-0.png" alt="Temple foundation layer" class="temple-layer" />
+          <img id="layer-1" src="assets/temple/layer-1.png" alt="Temple first wall layer" class="temple-layer" />
+          <img id="layer-2" src="assets/temple/layer-2.png" alt="Temple upper wall layer" class="temple-layer" />
+          <img id="layer-3" src="assets/temple/layer-3.png" alt="Temple roof base layer" class="temple-layer" />
+          <img id="layer-4" src="assets/temple/layer-4.png" alt="Temple tower layer" class="temple-layer" />
+          <img id="layer-5" src="assets/temple/layer-5.png" alt="Temple spire layer" class="temple-layer" />
+          <img id="layer-6" src="assets/temple/layer-6.png" alt="Temple completed layer" class="temple-layer" />
+        </div>
+      </section>
+
+      <p id="status-message" class="status-message" aria-live="assertive"></p>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
