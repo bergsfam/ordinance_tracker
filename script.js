@@ -19,6 +19,36 @@ async function loadJson(path) {
   return response.json();
 }
 
+async function loadJsonFromCandidates(paths) {
+  let lastError = null;
+
+  for (const path of paths) {
+    try {
+      return await loadJson(path);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error("Unable to load JSON data.");
+}
+
+function getDataPathCandidates(fileName) {
+  const candidates = new Set();
+  const pathname = window.location.pathname || "/";
+  const parts = pathname.split("/").filter(Boolean);
+
+  candidates.add(`data/${fileName}`);
+  candidates.add(`./data/${fileName}`);
+  candidates.add(`/data/${fileName}`);
+
+  if (parts.length > 0) {
+    candidates.add(`/${parts[0]}/data/${fileName}`);
+  }
+
+  return Array.from(candidates);
+}
+
 function renderProgress(currentTotal, goalTotal) {
   const safeGoal = goalTotal > 0 ? goalTotal : DEFAULT_GOAL_TOTAL;
   const rawPercent = (currentTotal / safeGoal) * 100;
@@ -49,8 +79,8 @@ async function init() {
 
   try {
     const [config, progress] = await Promise.all([
-      loadJson("data/config.json"),
-      loadJson("data/progress.json"),
+      loadJsonFromCandidates(getDataPathCandidates("config.json")),
+      loadJsonFromCandidates(getDataPathCandidates("progress.json")),
     ]);
 
     const goalTotal = parseWholeNumber(config.goal_total, DEFAULT_GOAL_TOTAL) || DEFAULT_GOAL_TOTAL;
