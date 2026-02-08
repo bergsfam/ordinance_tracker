@@ -33,11 +33,21 @@ async function loadJsonFromCandidates(paths) {
   throw lastError || new Error("Unable to load JSON data.");
 }
 
+function getSiteBaseUrl() {
+  const scriptTag = document.querySelector('script[src$="script.js"]');
+  if (scriptTag && scriptTag.src) {
+    return new URL("./", scriptTag.src).href;
+  }
+  return new URL("./", window.location.href).href;
+}
+
 function getDataPathCandidates(fileName) {
   const candidates = new Set();
   const pathname = window.location.pathname || "/";
   const parts = pathname.split("/").filter(Boolean);
+  const siteBaseUrl = getSiteBaseUrl();
 
+  candidates.add(`${siteBaseUrl}data/${fileName}`);
   candidates.add(`data/${fileName}`);
   candidates.add(`./data/${fileName}`);
   candidates.add(`/data/${fileName}`);
