@@ -49,8 +49,8 @@ async function init() {
 
   try {
     const [config, progress] = await Promise.all([
-      loadJson("/data/config.json"),
-      loadJson("/data/progress.json"),
+      loadJson("data/config.json"),
+      loadJson("data/progress.json"),
     ]);
 
     const goalTotal = parseWholeNumber(config.goal_total, DEFAULT_GOAL_TOTAL) || DEFAULT_GOAL_TOTAL;
