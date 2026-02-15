@@ -117,8 +117,7 @@ body {
 }
 
 .progress-image-base {
-  background-position: center center;
-  filter: grayscale(0.95) brightness(0.42);
+  background: #ffffff;
 }
 
 .progress-image-reveal {
