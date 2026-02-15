@@ -40,7 +40,9 @@ function getAssetUrl(path, fallbackPath) {
 
 function setProgressImage(pathFromConfig) {
   const imageUrl = getAssetUrl(pathFromConfig, DEFAULT_PROGRESS_IMAGE);
+  const baseImage = document.getElementById("progress-image-base");
   const revealImage = document.getElementById("progress-image-reveal");
+  if (baseImage) baseImage.style.backgroundImage = `url("${imageUrl}")`;
   if (revealImage) revealImage.style.backgroundImage = `url("${imageUrl}")`;
 }
 
