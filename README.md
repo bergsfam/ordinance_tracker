@@ -13,6 +13,8 @@ This is a static website that runs on GitHub Pages using plain HTML, CSS, and Ja
 │   ├── config.json
 │   └── progress.json
 └── assets
+    ├── progress
+    │   └── progress-picture.png
     └── temple
         ├── layer-0.png
         ├── layer-1.png
@@ -42,6 +44,22 @@ Example:
 
 If needed, open `data/config.json` and change `goal_total`.
 If this file is missing or invalid, the site defaults to a goal of `2500`.
+
+## Progress Picture (50 Steps, 2% Each)
+
+The progress picture now updates in 50 equal steps (every 2%).
+
+1. Put your chosen image at `assets/progress/progress-picture.png`.
+2. In `data/config.json`, set:
+
+```json
+{
+  "goal_total": 2500,
+  "progress_image": "assets/progress/progress-picture.png"
+}
+```
+
+As progress increases, the image reveals from bottom to top in 2% increments.
 
 ## GitHub Pages Setup
 

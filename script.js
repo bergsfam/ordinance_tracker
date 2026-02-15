@@ -1,5 +1,7 @@
 const DEFAULT_GOAL_TOTAL = 2500;
-const TEMPLE_THRESHOLDS = [0, 10, 25, 45, 65, 85, 100];
+const PROGRESS_STEP_PERCENT = 2;
+const TOTAL_PROGRESS_STEPS = 50;
+const DEFAULT_PROGRESS_IMAGE = "assets/progress/progress-picture.png";
 
 function formatNumber(value) {
   return new Intl.NumberFormat("en-US").format(value);
@@ -31,11 +33,26 @@ function getDataUrl(fileName) {
   return new URL(`data/${fileName}`, getSiteBaseUrl()).href;
 }
 
+function getAssetUrl(path, fallbackPath) {
+  const chosenPath = typeof path === "string" && path.trim() ? path.trim() : fallbackPath;
+  return new URL(chosenPath, getSiteBaseUrl()).href;
+}
+
+function setProgressImage(pathFromConfig) {
+  const imageUrl = getAssetUrl(pathFromConfig, DEFAULT_PROGRESS_IMAGE);
+  const baseImage = document.getElementById("progress-image-base");
+  const revealImage = document.getElementById("progress-image-reveal");
+  if (baseImage) baseImage.src = imageUrl;
+  if (revealImage) revealImage.src = imageUrl;
+}
+
 function renderProgress(currentTotal, goalTotal) {
   const safeGoal = goalTotal > 0 ? goalTotal : DEFAULT_GOAL_TOTAL;
   const rawPercent = (currentTotal / safeGoal) * 100;
   const clampedPercent = Math.min(100, Math.max(0, rawPercent));
   const remaining = Math.max(0, safeGoal - currentTotal);
+  const step = Math.min(TOTAL_PROGRESS_STEPS, Math.floor(clampedPercent / PROGRESS_STEP_PERCENT));
+  const steppedPercent = step * PROGRESS_STEP_PERCENT;
 
   document.getElementById("current-total").textContent = formatNumber(currentTotal);
   document.getElementById("goal-total").textContent = formatNumber(safeGoal);
@@ -48,11 +65,15 @@ function renderProgress(currentTotal, goalTotal) {
   const progressBar = document.getElementById("progress-bar");
   progressBar.setAttribute("aria-valuenow", clampedPercent.toFixed(1));
 
-  TEMPLE_THRESHOLDS.forEach((threshold, index) => {
-    const layer = document.getElementById(`layer-${index}`);
-    if (!layer) return;
-    layer.classList.toggle("visible", clampedPercent >= threshold);
-  });
+  const revealImage = document.getElementById("progress-image-reveal");
+  if (revealImage) {
+    revealImage.style.clipPath = `inset(${100 - steppedPercent}% 0 0 0)`;
+  }
+
+  const stepLabel = document.getElementById("progress-step-label");
+  if (stepLabel) {
+    stepLabel.textContent = `Picture Step: ${step} / ${TOTAL_PROGRESS_STEPS} (${steppedPercent}%)`;
+  }
 }
 
 async function init() {
@@ -67,9 +88,11 @@ async function init() {
 
     const goalTotal = parseWholeNumber(config.goal_total, DEFAULT_GOAL_TOTAL) || DEFAULT_GOAL_TOTAL;
     const currentTotal = parseWholeNumber(progress.current_total, 0);
+    setProgressImage(config.progress_image);
 
     renderProgress(currentTotal, goalTotal);
   } catch (error) {
+    setProgressImage("");
     renderProgress(0, DEFAULT_GOAL_TOTAL);
     status.textContent = "Unable to load progress data. Check data/config.json and data/progress.json.";
   }
