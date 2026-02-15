@@ -112,16 +112,21 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .progress-image-base {
+  background-position: center center;
   filter: grayscale(0.95) brightness(0.42);
 }
 
 .progress-image-reveal {
-  clip-path: inset(100% 0 0 0);
-  transition: clip-path 350ms ease;
+  top: auto;
+  bottom: 0;
+  height: 0%;
+  background-position: center bottom;
+  transition: height 350ms ease;
 }
 
 .progress-step-label {

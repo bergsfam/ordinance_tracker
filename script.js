@@ -42,8 +42,8 @@ function setProgressImage(pathFromConfig) {
   const imageUrl = getAssetUrl(pathFromConfig, DEFAULT_PROGRESS_IMAGE);
   const baseImage = document.getElementById("progress-image-base");
   const revealImage = document.getElementById("progress-image-reveal");
-  if (baseImage) baseImage.src = imageUrl;
-  if (revealImage) revealImage.src = imageUrl;
+  if (baseImage) baseImage.style.backgroundImage = `url("${imageUrl}")`;
+  if (revealImage) revealImage.style.backgroundImage = `url("${imageUrl}")`;
 }
 
 function renderProgress(currentTotal, goalTotal) {
@@ -67,7 +67,7 @@ function renderProgress(currentTotal, goalTotal) {
 
   const revealImage = document.getElementById("progress-image-reveal");
   if (revealImage) {
-    revealImage.style.clipPath = `inset(${100 - steppedPercent}% 0 0 0)`;
+    revealImage.style.height = `${steppedPercent}%`;
   }
 
   const stepLabel = document.getElementById("progress-step-label");
